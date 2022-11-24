@@ -1,0 +1,13 @@
+.login-container{
+    margin-top: 50px;
+    text-align: center;
+    width: 400px;
+}
+
+p{
+    margin: 10px 0 !important;
+}
+
+.btn{
+    border-radius: 10px;
+}
