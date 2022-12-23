@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>Title</th>
+                <th>Author</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th></th>
@@ -15,8 +16,9 @@
             {{#each reviews}}
                 <tr>
                     <td><a href="/reviews/{{_id}}"></a>{{title}}</td>
+                    <td><a href="/reviews/{{_id}}"></a>{{author}}</td>
                     <td>{{createdAt}}</td>
-                    <td><span class="dash-status">{{Status}}</span></td>
+                    <td><span class="dash-status">{{status}}</span></td>
                     <td></td>
                 </tr>
             {{/each}}
