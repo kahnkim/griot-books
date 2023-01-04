@@ -3,6 +3,7 @@ const router = express.Router()
 const { ensureAuth } = require('../middleware/auth')
 
 const Review = require('../models/Review')
+const { populate } = require('../models/User')
 
 // @desc    Show add page
 // @route   GET /reviews/add
@@ -17,6 +18,22 @@ router.post('/', ensureAuth, async (req, res) => {
         req.body.user = req.user.id
         await Review.create(req.body)
         res.redirect('/dashboard')
+    } catch (err) {
+        console.error(err)
+        res.render('error/500')
+    }
+})
+
+
+// @desc    Show all reviews
+// @route   GET /reviews
+router.get('/', ensureAuth, async (req, res) => {
+    try {
+        const reviews = await Review.find({ status: 'public' })
+            .populate('user')
+            .sort({ createdAt: 'desc' })
+            .lean()
+    res.render('reviews/index', {reviews,})
     } catch (err) {
         console.error(err)
         res.render('error/500')
