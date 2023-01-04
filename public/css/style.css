@@ -11,3 +11,7 @@ p{
 .btn{
     border-radius: 10px;
 }
+
+.fa-small{
+    font-size: 14px !important;
+}
