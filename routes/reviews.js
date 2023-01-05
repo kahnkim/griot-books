@@ -40,4 +40,24 @@ router.get('/', ensureAuth, async (req, res) => {
     }
 })
 
+// @desc    Show edit page
+// @route   GET /reviews/edit/:id
+router.get('/edit/:id', ensureAuth, async (req, res) => {
+    const review = await Review.findOne({
+        _id: req.params.id
+    }).lean()
+
+    if(!review) {
+        return res.render('error/404')
+    }
+
+    if (review.user != req.user.id) {
+        res.redirect('/reviews')
+    } else {
+        res.render('reviews/edit', {
+            review,
+        })
+    }
+})
+
 module.exports = router
