@@ -60,4 +60,30 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
     }
 })
 
+// @desc    Update/edit review
+// @route   PUT /reviews/:id
+router.put('/:id', ensureAuth, async (req, res) => {
+    try {
+        let review = await Review.findById(req.params.id).lean()
+    
+        if (!review) {
+          return res.render('error/404')
+        }
+    
+        if (review.user != req.user.id) {
+          res.redirect('/reviews')
+        } else {
+          review = await Review.findOneAndUpdate({ _id: req.params.id }, req.body, {
+            new: true,
+            runValidators: true,
+          })
+    
+          res.redirect('/dashboard')
+        }
+      } catch (err) {
+        console.error(err)
+        return res.render('error/500')
+      }
+})
+
 module.exports = router
