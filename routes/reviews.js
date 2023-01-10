@@ -43,21 +43,27 @@ router.get('/', ensureAuth, async (req, res) => {
 // @desc    Show edit page
 // @route   GET /reviews/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
-    const review = await Review.findOne({
-        _id: req.params.id
-    }).lean()
-
-    if(!review) {
-        return res.render('error/404')
+    try {
+        const review = await Review.findOne({
+            _id: req.params.id
+        }).lean()
+    
+        if(!review) {
+            return res.render('error/404')
+        }
+    
+        if (review.user != req.user.id) {
+            res.redirect('/reviews')
+        } else {
+            res.render('reviews/edit', {
+                review,
+            })
+        }
+    } catch (err) {
+        console.error(err)
+        return res.render('error/500')
     }
 
-    if (review.user != req.user.id) {
-        res.redirect('/reviews')
-    } else {
-        res.render('reviews/edit', {
-            review,
-        })
-    }
 })
 
 // @desc    Update/edit review
@@ -84,6 +90,18 @@ router.put('/:id', ensureAuth, async (req, res) => {
         console.error(err)
         return res.render('error/500')
       }
+})
+
+// @desc    Delete review
+// @route   DELETE /reviews/:id
+router.delete('/:id', ensureAuth, async (req, res) => {
+    try {
+        await Review.remove({ _id: req.params.id })
+        res.redirect('/dashboard')
+    } catch (err) {
+        console.error(err)
+        return res.render('error/500')
+    }
 })
 
 module.exports = router
