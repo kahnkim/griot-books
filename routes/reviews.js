@@ -50,8 +50,12 @@ router.get('/:id', ensureAuth, async (req, res) => {
         if (!review) {
             return res.render('error/404')
         }
-
-        res.render('reviews/show', { review })
+        // If user id does not match the user id for review & review is private
+        if (review.user._id != req.user.id && review.status == 'private') {
+            res.render('error/404')
+        } else {
+            res.render('reviews/show', { review })
+        }
     } catch (err) {
         console.error(err)
         res.render('error/404')
