@@ -28,3 +28,11 @@ p{
 .fa-trash{
     font-size: 14px !important;
 }
+
+.img-small{
+    width: 160px;
+}
+/* Single Review Page */
+.single-edit{
+    color: orange !important;
+}

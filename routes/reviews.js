@@ -24,7 +24,6 @@ router.post('/', ensureAuth, async (req, res) => {
     }
 })
 
-
 // @desc    Show all reviews
 // @route   GET /reviews
 router.get('/', ensureAuth, async (req, res) => {
@@ -37,6 +36,25 @@ router.get('/', ensureAuth, async (req, res) => {
     } catch (err) {
         console.error(err)
         res.render('error/500')
+    }
+})
+
+// @desc    Show single review page
+// @route   GET /reviews/:id
+router.get('/:id', ensureAuth, async (req, res) => {
+    try {
+        let review = await Review.findById(req.params.id)
+            .populate('user')
+            .lean()
+        
+        if (!review) {
+            return res.render('error/404')
+        }
+
+        res.render('reviews/show', { review })
+    } catch (err) {
+        console.error(err)
+        res.render('error/404')
     }
 })
 
@@ -96,7 +114,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
 // @route   DELETE /reviews/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
     try {
-        await Review.remove({ _id: req.params.id })
+        await Review.deleteOne({ _id: req.params.id })
         res.redirect('/dashboard')
     } catch (err) {
         console.error(err)

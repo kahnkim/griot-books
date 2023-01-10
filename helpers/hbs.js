@@ -2,7 +2,7 @@ const moment = require('moment')
       
 module.exports = {
     formatDate: function (date, format){
-      return moment(date).format(format)
+        return moment(date).utc().format(format)
     },
     truncate: function (str, len) {
       if (str.length > len && str.length > 0) {
@@ -22,7 +22,7 @@ module.exports = {
         if (floating) {
           return `<a href="/reviews/edit/${reviewId}" class="btn-floating halfway-fab orange"><i class="fas fa-edit fa-small"></i></a>`
         } else {
-          return `<a href="/reviews/edit/${reviewId}"><i class="fas fa-edit"></i></a>`
+          return `<a href="/reviews/edit/${reviewId}"><i class="fas fa-edit single-edit"></i></a>`
         }
       } else {
         return ''
