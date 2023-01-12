@@ -4,6 +4,10 @@
     width: 400px;
 }
 
+.card{
+    border-radius: 10px !important;
+}
+
 p{
     margin: 10px 0 !important;
 }
@@ -32,7 +36,20 @@ p{
 .img-small{
     width: 160px;
 }
+
+input::placeholder{
+    color: #757575;
+}
 /* Single Review Page */
 .single-edit{
-    color: orange !important;
+    color: #311b92 !important;
+}
+
+.user-card{
+    margin-top: 1.9466666667rem !important;
+}
+
+.user-link{
+    color: #311b92 !important;
+    margin-right: 0 !important;
 }

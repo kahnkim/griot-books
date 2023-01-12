@@ -1,5 +1,6 @@
 const moment = require('moment')
-      
+
+//Handlebars helpers
 module.exports = {
     formatDate: function (date, format){
         return moment(date).utc().format(format)
@@ -17,10 +18,11 @@ module.exports = {
     stripTags: function (input) {
       return input.replace(/<(?:.|\n)*?>/gm, '')
     },
+    //Edit icon helper to check if logged user is owner of review to edit on the public reviews page
     editIcon: function (reviewUser, loggedUser, reviewId, floating = true) {
       if (reviewUser._id.toString() == loggedUser._id.toString()) {
         if (floating) {
-          return `<a href="/reviews/edit/${reviewId}" class="btn-floating halfway-fab orange"><i class="fas fa-edit fa-small"></i></a>`
+          return `<a href="/reviews/edit/${reviewId}" class="btn-floating halfway-fab deep-purple darken-4"><i class="fas fa-edit fa-small"></i></a>`
         } else {
           return `<a href="/reviews/edit/${reviewId}"><i class="fas fa-edit single-edit"></i></a>`
         }
@@ -28,6 +30,7 @@ module.exports = {
         return ''
       }
     },
+    //Allows previously selected status to show when user clicks on edit page
     select: function (selected, options) {
       return options
         .fn(this)

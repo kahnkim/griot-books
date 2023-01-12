@@ -2,18 +2,18 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 
-// @desc    Auth with Google
-// @route   GET /auth/google
+// Auth with Google
+// GET /auth/google
 router.get('/google', passport.authenticate('google', { scope: ['profile'], prompt : "select_account"})) // Added for macbook auto log in - to choose account
 
-// @desc    Google auth callback
-// @route   GET /auth/google/callback
+// Google auth callback
+// GET /auth/google/callback
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
     res.redirect('/dashboard')
 })
 
-// @desc    Logout user
-// @route   /auth/logout
+// Logout user
+// GET /auth/logout
 router.get('/logout', (req, res, next) => {
     req.logout((error) => {
         if (error) {return next(error)}

@@ -68,7 +68,8 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
     try {
         const review = await Review.findOne({
             _id: req.params.id
-        }).lean()
+        })
+            .lean()
     
         if(!review) {
             return res.render('error/404')
@@ -123,6 +124,42 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     } catch (err) {
         console.error(err)
         return res.render('error/500')
+    }
+})
+
+// @desc    User reviews
+// @route   GET /reviews/user/:userId
+router.get('/user/:userId', ensureAuth, async (req, res) => {
+    try {
+        const reviews = await Review.find({
+        user: req.params.userId,
+        status: 'public',
+    })
+        .populate('user')
+        .lean()
+
+    res.render('user', { 
+        name: req.user.firstName,
+        reviews
+    })
+    } catch (err) {
+        console.error(err)
+        res.render('error/500')
+    }
+})
+
+//@desc Search reviews by title
+//@route GET /reviews/search/:query
+router.get('/search/:query', ensureAuth, async (req, res) => {
+    try {
+        const reviews = await Review.find({title: new RegExp(req.query.query,'i'), status: 'public'})
+        .populate('user')
+        .sort({ createdAt: 'desc'})
+        .lean()
+        res.render('reviews/index', { reviews })
+    } catch(err){
+        console.log(err)
+        res.render('error/404')
     }
 })
 
