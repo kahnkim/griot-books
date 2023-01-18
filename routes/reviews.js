@@ -5,14 +5,14 @@ const { ensureAuth } = require('../middleware/auth')
 const Review = require('../models/Review')
 const { populate } = require('../models/User')
 
-// @desc    Show add page
-// @route   GET /reviews/add
+// Show add page
+// GET /reviews/add
 router.get('/add', ensureAuth, (req, res) => {
     res.render('reviews/add')
 })
 
-// @desc    Process add form
-// @route   POST /reviews
+// Process add form
+// POST /reviews
 router.post('/', ensureAuth, async (req, res) => {
     try {
         req.body.user = req.user.id
@@ -24,8 +24,8 @@ router.post('/', ensureAuth, async (req, res) => {
     }
 })
 
-// @desc    Show all reviews
-// @route   GET /reviews
+// Show all reviews
+// GET /reviews
 router.get('/', ensureAuth, async (req, res) => {
     try {
         const reviews = await Review.find({ status: 'public' })
@@ -39,8 +39,8 @@ router.get('/', ensureAuth, async (req, res) => {
     }
 })
 
-// @desc    Show single review page
-// @route   GET /reviews/:id
+// Show single review page
+// GET /reviews/:id
 router.get('/:id', ensureAuth, async (req, res) => {
     try {
         let review = await Review.findById(req.params.id)
@@ -62,8 +62,8 @@ router.get('/:id', ensureAuth, async (req, res) => {
     }
 })
 
-// @desc    Show edit page
-// @route   GET /reviews/edit/:id
+// Show edit page
+// GET /reviews/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
     try {
         const review = await Review.findOne({
@@ -89,8 +89,8 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
 
 })
 
-// @desc    Update/edit review
-// @route   PUT /reviews/:id
+// Update/edit review
+// PUT /reviews/:id
 router.put('/:id', ensureAuth, async (req, res) => {
     try {
         let review = await Review.findById(req.params.id).lean()
@@ -115,8 +115,8 @@ router.put('/:id', ensureAuth, async (req, res) => {
       }
 })
 
-// @desc    Delete review
-// @route   DELETE /reviews/:id
+// Delete review
+// DELETE /reviews/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
     try {
         await Review.deleteOne({ _id: req.params.id })
@@ -127,8 +127,8 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     }
 })
 
-// @desc    User reviews
-// @route   GET /reviews/user/:userId
+// User reviews
+// GET /reviews/user/:userId
 router.get('/user/:userId', ensureAuth, async (req, res) => {
     try {
         const reviews = await Review.find({
@@ -148,8 +148,8 @@ router.get('/user/:userId', ensureAuth, async (req, res) => {
     }
 })
 
-//@desc Search reviews by title
-//@route GET /reviews/search/:query
+// Search reviews by title
+// GET /reviews/search/:query
 router.get('/search/:query', ensureAuth, async (req, res) => {
     try {
         const reviews = await Review.find({title: new RegExp(req.query.query,'i'), status: 'public'})
