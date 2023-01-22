@@ -2,8 +2,6 @@
 
 Griot is a book review application where you can create and view reviews for previously read books. These reviews can be shared on a public page with other users.
 
-**Link to project:**
-
 ## How It's Made:
 
 **Tech used:** Express, MongoDB, Google OAuth 2.0, Handlebars
